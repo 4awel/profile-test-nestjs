@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:15.3
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: digital_card
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d digital_card']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    restart: always
+    environment:
+      NODE_ENV: production
+      APPLICATION_PORT: 4000
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/digital_card?schema=public
+      SEED_ON_START: 'true'
+    ports:
+      - '4000:4000'
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
