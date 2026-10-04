@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { HealthModule } from '@/core/health/health.module';
 import { PrismaModule } from '@/core/prisma/prisma.module';
 import { ProfileModule } from '@/core/profile/profile.module';
 import { SeedModule } from '@/core/seed/seed.module';
@@ -29,6 +30,7 @@ import { IS_DEV_ENV } from '@/shared/utils/is-dev.util';
 		PrismaModule,
 		SeedModule,
 		ProfileModule,
+		HealthModule,
 	],
 })
 export class CoreModule {}
